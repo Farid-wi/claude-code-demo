@@ -222,3 +222,100 @@ The codebase is secure for deployment. No vulnerabilities found in the actual co
 **Audited by**: Claude Code
 **Date**: 2024-05-07
 **Next Review**: Before next deployment
+
+---
+
+## SSH Authentication Setup
+
+### Configuration Completed: 2024-05-07
+
+#### Overview
+Configured SSH-based authentication for seamless git operations without repeated password prompts. Supports multiple GitHub accounts on the same machine.
+
+#### What Was Done
+
+1. **Generated Dedicated SSH Key**
+   - Key type: ED25519
+   - Location: `~/.ssh/id_ed25519_farid`
+   - Public key: `~/.ssh/id_ed25519_farid.pub`
+   - Comment: `farid-wi-github`
+
+2. **Added Public Key to GitHub**
+   - GitHub account: Farid-wi
+   - Location: https://github.com/settings/keys
+   - Key fingerprint: SHA256:0jHWY10/U3IfE/mNJ70kRou48H/+HW78rnaSj6hJzxU
+
+3. **Created SSH Config for Multiple Accounts**
+   - File: `~/.ssh/config`
+   - Host alias: `github.com-farid` (for Farid-wi account)
+   - Default host: `github.com` (for other account)
+   - Permissions: 600 (secure)
+
+4. **Updated Git Remote**
+   - Changed from: `https://github.com/Farid-wi/claude-code-demo.git`
+   - Changed to: `git@github.com-farid:Farid-wi/claude-code-demo.git`
+   - Protocol: SSH instead of HTTPS
+
+5. **Tested & Verified**
+   - ✅ SSH connection successful
+   - ✅ Push completed without authentication prompt
+   - ✅ Pull/fetch operations work seamlessly
+
+#### How to Use
+
+**For this project (Farid-wi account):**
+```bash
+git push    # No password needed
+git pull    # No password needed
+git fetch   # No password needed
+```
+
+**For other projects (default account):**
+- Use regular `github.com` in remote URLs
+- SSH config automatically uses `~/.ssh/id_ed25519`
+
+#### SSH Config Structure
+
+```
+# Farid-wi account
+Host github.com-farid
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_farid
+    IdentitiesOnly yes
+
+# Default account
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+```
+
+#### Future Projects with Farid-wi Account
+
+When cloning or setting up new repos for Farid-wi:
+```bash
+# Use the custom host alias
+git clone git@github.com-farid:Farid-wi/repo-name.git
+
+# Or update existing HTTPS remote
+git remote set-url origin git@github.com-farid:Farid-wi/repo-name.git
+```
+
+#### Benefits
+
+- ✅ No password/token prompts for git operations
+- ✅ More secure than HTTPS with tokens
+- ✅ Supports multiple GitHub accounts on same machine
+- ✅ SSH keys don't expire like tokens do
+- ✅ Faster authentication process
+
+#### Files Modified
+- `~/.ssh/id_ed25519_farid` (private key)
+- `~/.ssh/id_ed25519_farid.pub` (public key)
+- `~/.ssh/config` (SSH configuration)
+
+**Configured by**: Claude Code
+**Date**: 2024-05-07
+**Status**: Active and working
