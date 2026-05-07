@@ -15,3 +15,17 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.log
+
+# Security - Sensitive files
+*.key
+*.pem
+*.env
+*.env.*
+.env.local
+.env.*.local
+token.txt
+*secret*
+*credential*
+*password*
+*.pfx
+*.p12
